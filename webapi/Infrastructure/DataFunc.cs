@@ -25,7 +25,10 @@ namespace webapi.Infrastructure
             string mSQL;
             DataTable dt;
 
-            mSQL = "select * from ms_param";
+            mSQL = "select " +
+                   "id,descr as body,recdate as date,itemcode as preview,prpid as title,'' as url,'author' as author,'tags' as tags " +
+                   "from ms_prdata " +
+                   "where isnull(fdate, 0) <> 0";
 
             
             dt = webapi.Infrastructure.SQL.mSelect(mSQL, db.Database.Connection);

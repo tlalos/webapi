@@ -5,8 +5,10 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Results;
 using webapi.Infrastructure;
 using webapi.Models;
+
 
 namespace webapi.Controllers
 {
@@ -38,7 +40,7 @@ namespace webapi.Controllers
         [HttpGet]
         public IHttpActionResult Get_TestData()
         {
-
+            //IHttpActionResult 
             DataFunc erpfunc = new DataFunc(db);
 
             
@@ -53,7 +55,9 @@ namespace webapi.Controllers
 
             //return Ok(mRv);
             //return Ok(dt);
-            return Ok(ds);
+            //return Ok(ds);
+            
+            return Ok(SQL.DataTableToJSONWithJSONNet(dt2));
 
         }
 

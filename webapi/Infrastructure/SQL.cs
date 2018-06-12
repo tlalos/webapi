@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Web;
+using Newtonsoft.Json;
 
 namespace webapi.Infrastructure
 {
@@ -47,6 +48,17 @@ namespace webapi.Infrastructure
 
             return true;
         }
+
+
+        public static string DataTableToJSONWithJSONNet(DataTable table)
+        {
+            
+            string JSONString = string.Empty;
+            JSONString = JsonConvert.SerializeObject(table);
+            return JSONString;
+        }
+
+
     }
 
 }
