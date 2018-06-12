@@ -57,7 +57,7 @@ namespace webapi.Controllers
             //return Ok(dt);
             //return Ok(ds);
             
-            return Ok(SQL.DataTableToJSONWithJSONNet(dt2));
+            return Ok(SQL.DataTableToJSONWithJavaScriptSerializer(dt2));
 
         }
 
