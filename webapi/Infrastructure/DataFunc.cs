@@ -19,27 +19,45 @@ namespace webapi.Infrastructure
         }
 
 
-        public DataTable mRet_ItemGroupDescr()
+        public DataTable mRet_Persons()
         {
 
             string mSQL;
             DataTable dt;
-
-            mSQL = "select top 2 " +
-                   "id,per_descr as body,"+
-                   "per_occupation as preview,"+
-                   "per_Address as title,"+
-                   "per_city as url,"+
-                   "'author' as author,"+
-                   "'tags' as tags " +
+            
+            mSQL = "select top 4 " +
+                   "id,per_code as code,per_descr as name," +
+                   "per_address as address " +
                    "from ms_persons ";
 
-            
+
+
             dt = webapi.Infrastructure.SQL.mSelect(mSQL, db.Database.Connection);
             ////
             return dt;
 
         }
+
+        public DataTable mRet_Persons_FromCode(string code)
+        {
+
+            string mSQL;
+            DataTable dt;
+
+            mSQL = "select " +
+                   "id,per_code as code,per_descr as name," +
+                   "per_address as address " +
+                   "from ms_persons "+
+                   "where per_code='"+code+"'";
+
+
+
+            dt = webapi.Infrastructure.SQL.mSelect(mSQL, db.Database.Connection);
+            ////
+            return dt;
+
+        }
+
 
 
     }

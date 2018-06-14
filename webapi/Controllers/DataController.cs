@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Results;
 using webapi.Infrastructure;
@@ -19,14 +20,6 @@ namespace webapi.Controllers
 
         
 
-        Product[] products = new Product[]
-     {
-            new Product { Id = 1, Name = "Tomato Soup", Category = "Groceries", Price = 1 },
-            new Product { Id = 2, Name = "Yo-yo", Category = "Toys", Price = 3.75M },
-            new Product { Id = 3, Name = "Hammer", Category = "Hardware", Price = 16.99M },
-            new Product { Id = 4, Name = "Software", Category = "Software", Price = 16.99M }
-     };
-
         public DataController()
         {
             db = new WebDBContext();
@@ -35,31 +28,55 @@ namespace webapi.Controllers
         {
             db.Dispose();
         }
-        
-        
+
+
+
         [HttpGet]
-        public IHttpActionResult Get_TestData()
+        public IHttpActionResult GetData()
+
         {
-            //IHttpActionResult 
+
+            return Ok();
+            
+        }
+
+
+        [HttpGet]
+        public HttpResponseMessage GetMobileData(string requestcode,string deviceCode,string param)
+        {
+
+
             DataFunc erpfunc = new DataFunc(db);
-
+            DataTable dt=null;
             
-            DataTable dt2;
-            dt2 = erpfunc.mRet_ItemGroupDescr();
 
+            if (requestcode.ToLower() == "allcustomers")
+            {
+                dt = erpfunc.mRet_Persons();
+            }
 
+            else if (requestcode.ToLower() == "singlecustomer")
+            {
+                dt = erpfunc.mRet_Persons_FromCode(param);
+            }
+
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, "Request not found");
+            }
+    
+                        
+            string retval = SQL.DataTableToJSONWithJSONNet(dt);
             
-            DataSet ds = new DataSet();
-            ds.Tables.Add(dt2);
-            //ds.Tables.Add(dt2);
+            var resp = new HttpResponseMessage { Content = new StringContent(retval, System.Text.Encoding.UTF8, "application/json") };
 
-            //return Ok(mRv);
-            //return Ok(dt);
-            //return Ok(ds);
-            
-            return Ok(SQL.DataTableToJSONWithJavaScriptSerializer(dt2));
+            return resp;
+
 
         }
+
+
+
 
 
 
