@@ -36,7 +36,7 @@ namespace webapi.Infrastructure
 
         public static Boolean mCommand(string mSQL, DbConnection mCon)
         {
-
+                        
             DbProviderFactory factory = DbProviderFactories.GetFactory("System.Data.SqlClient");
 
             DbDataAdapter mAdapter = factory.CreateDataAdapter();
@@ -45,6 +45,7 @@ namespace webapi.Infrastructure
             mDBCommand.Connection = mCon;
             mDBCommand.CommandText = mSQL;
 
+                        
             mDBCommand.ExecuteNonQuery();
             mDBCommand.Dispose();
 

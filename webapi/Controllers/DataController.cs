@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 using webapi.Infrastructure;
@@ -23,9 +24,12 @@ namespace webapi.Controllers
         public DataController()
         {
             db = new WebDBContext();
+            
+            db.Database.Connection.Open(); 
         }
         protected override void Dispose(bool disposing)
         {
+            db.Database.Connection.Close();
             db.Dispose();
         }
 
@@ -72,6 +76,22 @@ namespace webapi.Controllers
 
             return resp;
 
+
+        }
+
+
+
+        [HttpPost]
+        public HttpResponseMessage PostExpensesData([FromBody] List<Expenses> p)
+        {
+            DataFunc erpfunc = new DataFunc(db);
+            erpfunc.mSaveExpenses(p);
+
+            string retval = "[{result:'ok'}]";
+
+            var resp = new HttpResponseMessage { Content = new StringContent(retval, System.Text.Encoding.UTF8, "application/json") };
+
+            return resp;
 
         }
 
