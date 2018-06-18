@@ -82,6 +82,7 @@ namespace webapi.Controllers
 
 
         [HttpPost]
+        [Route("api/data/PostExpensesData")]
         public HttpResponseMessage PostExpensesData([FromBody] List<Expenses> p)
         {
             DataFunc erpfunc = new DataFunc(db);
@@ -96,9 +97,20 @@ namespace webapi.Controllers
         }
 
 
+        [HttpPost]
+        [Route("api/data/PostExpenseTypeData")]
+        public HttpResponseMessage PostExpenseTypeData([FromBody] List<ExpenseType> p)
+        {
+            DataFunc erpfunc = new DataFunc(db);
+            erpfunc.mSaveExpenseType(p);
 
+            string retval = "[{result:'ok'}]";
 
+            var resp = new HttpResponseMessage { Content = new StringContent(retval, System.Text.Encoding.UTF8, "application/json") };
 
+            return resp;
 
+        }
     }
+
 }

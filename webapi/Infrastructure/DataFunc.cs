@@ -89,5 +89,28 @@ namespace webapi.Infrastructure
         }
 
 
+        public bool mSaveExpenseType(List<ExpenseType> expensetype)
+        {
+            foreach (ExpenseType e in expensetype)
+            {
+                string mSQL;
+                mSQL = "insert into expensetype " +
+                       "(codeid,descr) " +
+                       "values " +
+                       "(" +
+                       "'" + e.codeid + "'," +
+                       "'" + e.descr + "' " +
+                       ")";
+
+                webapi.Infrastructure.SQL.mCommand(mSQL, db.Database.Connection);
+
+            }
+
+            return true;
+        }
+
+
+
+
     }
 }
