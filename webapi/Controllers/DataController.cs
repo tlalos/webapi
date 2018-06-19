@@ -64,6 +64,11 @@ namespace webapi.Controllers
                 dt = erpfunc.mRet_Persons_FromCode(param);
             }
 
+            else if (requestcode.ToLower() == "expenses")
+            {
+                dt = erpfunc.mRetExpenses();
+            }
+
             else
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Request not found");

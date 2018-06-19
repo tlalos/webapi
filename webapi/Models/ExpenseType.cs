@@ -9,9 +9,10 @@ namespace webapi.Models
     {
 
         public int codeid { get; set; }
-
-        
+               
         public string descr { get; set; }
+
+        public int deleted { get; set; }
 
     }
 }

@@ -19,5 +19,9 @@ namespace webapi.Models
 
         public float Value { get; set; }
 
+        public int deleted { get; set; }
+
+        public string guid { get; set; }
+
     }
 }
