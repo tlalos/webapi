@@ -100,6 +100,7 @@
     <Compile Include="Models\ExpenseType.cs" />
     <Compile Include="Models\Expenses.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\RemoteGUIDs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

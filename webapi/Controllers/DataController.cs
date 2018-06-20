@@ -45,8 +45,8 @@ namespace webapi.Controllers
         }
 
 
-        [HttpGet]
-        public HttpResponseMessage GetMobileData(string requestcode,string deviceCode,string param)
+        [HttpPost]
+        public HttpResponseMessage GetMobileData([FromBody] List<RemoteGUIDs> p,string requestcode,string deviceCode,string param)
         {
 
 
@@ -66,7 +66,7 @@ namespace webapi.Controllers
 
             else if (requestcode.ToLower() == "expenses")
             {
-                dt = erpfunc.mRetExpenses();
+                dt = erpfunc.mRetExpenses(p);
             }
 
             else

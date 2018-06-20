@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Web;
 using webapi.Models;
 
@@ -64,8 +65,22 @@ namespace webapi.Infrastructure
         }
 
 
-        public DataTable mRetExpenses()
+        public DataTable mRetExpenses(List<RemoteGUIDs> p)
         {
+
+            string mFilter = "";
+            
+            string mRemoteGuids="";
+            if (p!=null)
+            {
+                mRemoteGuids = ConcatenateRemoteGUIDs(p);
+            }
+            
+            if (mRemoteGuids != "")
+            {
+                mFilter=" and e.guid not in ("+mRemoteGuids+")";
+            }
+
 
             string mSQL;
             DataTable dt;
@@ -78,7 +93,10 @@ namespace webapi.Infrastructure
                    "cast(isnull(e.value,0) as varchar(10)) as value," +
                    "e.guid " +
                    "from expenses e " +
-                   "left join expensetype et on et.codeid = e.expensecodeid";
+                   "left join expensetype et on et.codeid = e.expensecodeid "+
+                   "where "+
+                   "1=1 "+
+                   mFilter;
 
             
             dt = webapi.Infrastructure.SQL.mSelect(mSQL, db.Database.Connection);
@@ -151,6 +169,7 @@ namespace webapi.Infrastructure
             foreach (ExpenseType e in expensetype)
             {
 
+                
                 if (e.deleted == 0)
                 {
                     DataTable dt;
@@ -191,6 +210,28 @@ namespace webapi.Infrastructure
 
             return true;
         }
+
+
+        public string ConcatenateRemoteGUIDs(List<RemoteGUIDs> p)
+        {
+            StringBuilder sb = new StringBuilder();
+            char[] charsToTrim = { '\'',',',' ' };
+            string retVal="";
+            foreach (RemoteGUIDs item in p)
+            {
+                sb.Append(item.guid + "','");
+            }
+
+            retVal = sb.ToString().Trim().TrimEnd(charsToTrim);
+
+            if (p.Count>0)
+            {
+                retVal = "'" + retVal + "'";
+            }
+
+            return retVal;
+        }
+
 
 
 
