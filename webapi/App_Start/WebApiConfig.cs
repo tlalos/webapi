@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Http;
 
@@ -19,6 +20,11 @@ namespace webapi
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            
+            Trace.Listeners.Add(webapi.Infrastructure.FuncHelper.logListener);
+
+
 
         }
     }

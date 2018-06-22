@@ -50,7 +50,19 @@ namespace webapi.Controllers
         {
 
 
+            
+
             DataFunc erpfunc = new DataFunc(db);
+
+            try
+            {
+                erpfunc.LogToSQL("GUID Count:" + p.Count, "GetMobileData", "");
+            }
+            catch (Exception e)
+            {
+                erpfunc.LogToSQL("Logging error:" + e.Message, "GetMobileData", "");
+            }
+
             DataTable dt=null;
             
 
@@ -90,8 +102,33 @@ namespace webapi.Controllers
         [Route("api/data/PostExpensesData")]
         public HttpResponseMessage PostExpensesData([FromBody] List<Expenses> p)
         {
+
+            
+            
             DataFunc erpfunc = new DataFunc(db);
-            erpfunc.mSaveExpenses(p);
+
+            //try
+            //{
+            //    erpfunc.LogToSQL("Expenses Count:" + p.Count, "PostExpensesData", "");
+            //}
+            //catch (Exception e)
+            //{
+            //    erpfunc.LogToSQL("Logging error:" + e.Message, "PostExpensesData", "");
+            //}
+
+
+            try
+            {
+                erpfunc.mSaveExpenses(p);
+
+            }
+            catch (Exception e)
+            {
+                erpfunc.LogToSQL("Save Expenses:" + e.Message, "PostExpensesData", "");
+            }
+
+
+
 
             string retval = "[{result:'ok'}]";
 

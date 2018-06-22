@@ -95,6 +95,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\DataFunc.cs" />
+    <Compile Include="Infrastructure\FuncHelper.cs" />
     <Compile Include="Infrastructure\SQL.cs" />
     <Compile Include="Infrastructure\WebDBContext.cs" />
     <Compile Include="Models\ExpenseType.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -118,13 +119,17 @@ namespace webapi.Infrastructure
                     if (dt.Rows.Count == 0)
                     {
 
+                        LogToSQL("SQL:" + e.cdate, "PostExpensesData", "");
+                        DateTime cdate = DateTime.ParseExact(e.cdate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+
 
                         string mSQL;
                         mSQL = "insert into expenses " +
                                "(cdate,cyear,cmonth,comments,expensecodeid,value,guid) " +
                                "values " +
                                "(" +
-                               "convert(datetime,'" + Convert.ToDateTime(e.cdate).ToString("dd/MM/yyyy") + "',103)," +
+                               "convert(datetime,'" + Convert.ToDateTime(cdate).ToString("dd/MM/yyyy") + "',103)," +
                                "'" + e.cyear + "'," +
                                "'" + e.cmonth + "'," +
                                "'" + e.comments + "'," +
@@ -137,10 +142,12 @@ namespace webapi.Infrastructure
                     }
                     else
                     {
+                        DateTime cdate = DateTime.ParseExact(e.cdate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
                         string mSQL;
                         mSQL = "update expenses " +
                                "set " +
-                               "cdate=convert(datetime,'" + Convert.ToDateTime(e.cdate).ToString("dd/MM/yyyy") + "', 103)," +
+                               "cdate=convert(datetime,'" + Convert.ToDateTime(cdate).ToString("dd/MM/yyyy") + "', 103)," +
                                "cyear='" + e.cyear + "'," +
                                "cmonth='" + e.cmonth + "'," +
                                "comments='" + e.comments + "'," +
@@ -230,6 +237,15 @@ namespace webapi.Infrastructure
             }
 
             return retVal;
+        }
+
+
+
+        public void LogToSQL(string logEntry, string module, string comments)
+        {
+            SQL.mCommand("insert into log (logentry) values ('"+logEntry+"')", db.Database.Connection);
+
+
         }
 
 
