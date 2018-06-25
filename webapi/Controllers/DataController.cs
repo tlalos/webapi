@@ -49,8 +49,7 @@ namespace webapi.Controllers
         public HttpResponseMessage GetMobileData([FromBody] List<RemoteGUIDs> p,string requestcode,string deviceCode,string param)
         {
 
-
-            
+                        
 
             DataFunc erpfunc = new DataFunc(db);
 
@@ -103,38 +102,33 @@ namespace webapi.Controllers
         public HttpResponseMessage PostExpensesData([FromBody] List<Expenses> p)
         {
 
-            
-            
             DataFunc erpfunc = new DataFunc(db);
-
-            //try
-            //{
-            //    erpfunc.LogToSQL("Expenses Count:" + p.Count, "PostExpensesData", "");
-            //}
-            //catch (Exception e)
-            //{
-            //    erpfunc.LogToSQL("Logging error:" + e.Message, "PostExpensesData", "");
-            //}
-
-
             try
             {
+                
                 erpfunc.mSaveExpenses(p);
+
+                string retval = "[{result:'ok'},{resultdescr:''}]";
+
+                var resp = new HttpResponseMessage { Content = new StringContent(retval, System.Text.Encoding.UTF8, "application/json") };
+
+                return resp;
 
             }
             catch (Exception e)
             {
                 erpfunc.LogToSQL("Save Expenses:" + e.Message, "PostExpensesData", "");
+
+                string retval = "[{result:'error'},{resultdescr:'"+e.Message+"'}]";
+                var resp = new HttpResponseMessage { Content = new StringContent(retval, System.Text.Encoding.UTF8, "application/json") };
+                return resp;
+
             }
 
 
 
 
-            string retval = "[{result:'ok'}]";
-
-            var resp = new HttpResponseMessage { Content = new StringContent(retval, System.Text.Encoding.UTF8, "application/json") };
-
-            return resp;
+            
 
         }
 

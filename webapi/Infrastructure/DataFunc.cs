@@ -112,6 +112,13 @@ namespace webapi.Infrastructure
         {
             foreach (Expenses e in expenses)
             {
+                //fix date
+                List<string> d = e.cdate.Split('/').ToList<string>();
+                string finalDate = d[0].ToString().PadLeft(2, '0')+"/"+
+                                   d[1].ToString().PadLeft(2, '0') + "/" +
+                                   d[2].ToString();
+                e.cdate = finalDate;
+
                 if (e.deleted==0)
                 {
                     DataTable dt;
